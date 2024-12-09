@@ -1,16 +1,36 @@
-#導入webdriver​
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import time
 
-#建立一個chrome的webdriver
 driver = webdriver.Chrome()
 
+http_username = "Louis_FW"
+http_password = "00000000"
+def main():
+    # Login
+    try:
+        driver.get('http://www.asusrouter.com/')
+        time.sleep(5)
+        element1 = driver.find_element("xpath", "//*[@id=\"login_username\"]")
+        time.sleep(5)
+        print(element1)
+        element1 = driver.find_element("xpath", "//*[@id=\"login_username\"]")
+        element1.send_keys(http_username);
+        element2 = driver.find_element("xpath", "//*[@name=\"login_passwd\"]")
+        element2.send_keys(http_password);
+        time.sleep(5)
+        try:
+            driver.find_element("xpath", "//div[@onclick=\"login();\"]").click()
+        except:
+            print("Do not find login(); try preLogin();")
+            try:
+                driver.find_element("xpath", "//div[@onclick=\"preLogin();\"]").click()
+            except:
+                print("Can not find Login element!")
 
-driver.get("http://www.asusrouter.com/index.asp")
+    except TimeoutError:
+        driver.quit()
 
-#防止網頁馬上開了就關，再執行一次檔案就可以關閉頁面
-input()
+
+if __name__ == "__main__":
+    main()
